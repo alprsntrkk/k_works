@@ -20,9 +20,9 @@ namespace k.backend.app.service.Application.Commands
         {
             var json = request.Json;
 
-            var ocrResponse = JsonConvert.DeserializeObject<OcrResponse>(json);
+            var ocrResponses = JsonConvert.DeserializeObject<IEnumerable<OcrResponse>>(json.ToString());
 
-            await _campaignContext.AddAsync(ocrResponse);
+            await _campaignContext.AddRangeAsync(ocrResponses);
             await _campaignContext.SaveChangesAsync();
 
             return "Ocr successfully saved.";

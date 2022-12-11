@@ -18,6 +18,7 @@ namespace k.backend.app.data.EntityFramework.EntityConfigurations
         {
             builder.HasKey(x => x.Id);
             builder.HasOne(x => x.BoundingPoly).WithOne(x => x.OcrResponse).HasForeignKey<OcrResponse>(x => x.BoundingPolyId);
+            builder.Property(x => x.Locale).IsRequired(false);
         }
     }
 }

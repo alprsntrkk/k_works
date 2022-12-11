@@ -11,6 +11,6 @@ namespace k.backend.app.domain.Aggregates
         public long Id { get; set; }
         public long OcrResponseId { get; set; }
         public OcrResponse OcrResponse { get; set; }
-        public List<Vertice> Vertices { get; set; }
+        public IEnumerable<Vertice> Vertices { get; set; }
     }
 }

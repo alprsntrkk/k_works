@@ -18,11 +18,11 @@ namespace k.backend.app.service.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> SaveOcrResult([FromBody] OcrResultInputModel inputModel)
+        public async Task<IActionResult> SaveOcrResult([FromBody] object json)
         {
             var command = new OcrResultAddCommand
             {
-                Json = inputModel.Json
+                Json = json
             };
             var result = await _mediator.Send(command);
             return Ok(result);

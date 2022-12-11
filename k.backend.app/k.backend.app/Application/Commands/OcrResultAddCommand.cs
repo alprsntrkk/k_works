@@ -4,6 +4,6 @@ namespace k.backend.app.service.Application.Commands
 {
     public class OcrResultAddCommand : IRequest<string>
     {
-        public string Json { get; set; }
+        public object Json { get; set; }
     }
 }
