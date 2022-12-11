@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using k.backend.app.data.EntityFramework;
 
@@ -10,9 +11,11 @@ using k.backend.app.data.EntityFramework;
 namespace k.backend.app.data.Migrations
 {
     [DbContext(typeof(CampaignContext))]
-    partial class CampaignContextModelSnapshot : ModelSnapshot
+    [Migration("20221211164235_MultiLanguageTaskMigration2")]
+    partial class MultiLanguageTaskMigration2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -20,25 +23,6 @@ namespace k.backend.app.data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("k.backend.app.domain.Aggregates.BoundingPoly", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<long>("OcrResponseId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OcrResponseId")
-                        .IsUnique();
-
-                    b.ToTable("BoundingPolys");
-                });
 
             modelBuilder.Entity("k.backend.app.domain.Aggregates.CampaignCode", b =>
                 {
@@ -111,29 +95,6 @@ namespace k.backend.app.data.Migrations
                     b.ToTable("MultiLanguageContentImages");
                 });
 
-            modelBuilder.Entity("k.backend.app.domain.Aggregates.OcrResponse", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<long>("BoundingPolyId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Locale")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("OcrResponses");
-                });
-
             modelBuilder.Entity("k.backend.app.domain.Aggregates.User", b =>
                 {
                     b.Property<int>("Id")
@@ -164,30 +125,6 @@ namespace k.backend.app.data.Migrations
                             Password = "test",
                             UserName = "test"
                         });
-                });
-
-            modelBuilder.Entity("k.backend.app.domain.Aggregates.Vertice", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<long>("BoundingPolyId")
-                        .HasColumnType("bigint");
-
-                    b.Property<decimal>("X")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("Y")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BoundingPolyId");
-
-                    b.ToTable("Vertices");
                 });
 
             modelBuilder.Entity("k.backend.app.domain.Enum.CodeASCII", b =>
@@ -327,17 +264,6 @@ namespace k.backend.app.data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("k.backend.app.domain.Aggregates.BoundingPoly", b =>
-                {
-                    b.HasOne("k.backend.app.domain.Aggregates.OcrResponse", "OcrResponse")
-                        .WithOne("BoundingPoly")
-                        .HasForeignKey("k.backend.app.domain.Aggregates.BoundingPoly", "OcrResponseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("OcrResponse");
-                });
-
             modelBuilder.Entity("k.backend.app.domain.Aggregates.MultiLanguageContentImage", b =>
                 {
                     b.HasOne("k.backend.app.domain.Aggregates.MultiLanguageContent", "MultiLanguageContent")
@@ -349,31 +275,9 @@ namespace k.backend.app.data.Migrations
                     b.Navigation("MultiLanguageContent");
                 });
 
-            modelBuilder.Entity("k.backend.app.domain.Aggregates.Vertice", b =>
-                {
-                    b.HasOne("k.backend.app.domain.Aggregates.BoundingPoly", "BoundingPoly")
-                        .WithMany("Vertices")
-                        .HasForeignKey("BoundingPolyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("BoundingPoly");
-                });
-
-            modelBuilder.Entity("k.backend.app.domain.Aggregates.BoundingPoly", b =>
-                {
-                    b.Navigation("Vertices");
-                });
-
             modelBuilder.Entity("k.backend.app.domain.Aggregates.MultiLanguageContent", b =>
                 {
                     b.Navigation("MultiLanguageContentImages");
-                });
-
-            modelBuilder.Entity("k.backend.app.domain.Aggregates.OcrResponse", b =>
-                {
-                    b.Navigation("BoundingPoly")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
