@@ -38,7 +38,7 @@ namespace k.backend.app.data.Migrations
                     b.HasIndex("Code")
                         .IsUnique();
 
-                    b.ToTable("CampaignCodes");
+                    b.ToTable("CampaignCodes", (string)null);
                 });
 
             modelBuilder.Entity("k.backend.app.domain.Aggregates.User", b =>
@@ -62,7 +62,7 @@ namespace k.backend.app.data.Migrations
                     b.HasIndex("UserName")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
 
                     b.HasData(
                         new
@@ -90,7 +90,7 @@ namespace k.backend.app.data.Migrations
                     b.HasIndex("Character")
                         .IsUnique();
 
-                    b.ToTable("CodeASCIIs");
+                    b.ToTable("CodeASCIIs", (string)null);
 
                     b.HasData(
                         new

@@ -15,14 +15,19 @@ namespace k.backend.app.data.EntityFramework
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            #region Task 1
             modelBuilder.ApplyConfiguration<CampaignCode>(new CampaignCodeConfiguration());
             modelBuilder.ApplyConfiguration<CodeASCII>(new CodeASCIIConfiguration());
             modelBuilder.ApplyConfiguration<User>(new UserConfiguration());
+            #endregion Task 1
             base.OnModelCreating(modelBuilder);
         }
 
+        #region Task 1
         public DbSet<CampaignCode> CampaignCodes { get; set; }
         public DbSet<CodeASCII> CodeASCIIs { get; set; }
         public DbSet<User> Users { get; set; }
+
+        #endregion
     }
 }

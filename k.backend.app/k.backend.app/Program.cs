@@ -1,14 +1,23 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using k.backend.app.data.EntityFramework;
 using k.backend.app.service.Application.Queries;
+using k.backend.app.service.AutofacModules;
 using k.backend.core.Auth.Jwt.Abstact;
 using k.backend.core.Auth.Jwt.Concrete;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new ApplicationModule()));
+
+builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 
 // Add services to the container.
 
@@ -37,6 +46,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 builder.Services.AddTransient<ITokenService, TokenService>();
 builder.Services.AddTransient<ICampaignCodeQuery, CampaignCodeQuery>();
+builder.Services.AddHttpContextAccessor();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -49,31 +60,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
-app.UseSession();
-app.Use(async (context, next) =>
-{
-    var token = context.Session.GetString("Token");
-    if (!string.IsNullOrEmpty(token))
-    {
-        context.Request.Headers.Add("Authorization", "Bearer " + token);
-    }
-    await next();
-});
-
-app.Use(async (context, next) =>
-{
-    var token = context.Request.Headers["Authorization"].ToString();
-
-    token = token.Remove(0, 7);
-
-    var tokenService = app.Services.GetService<ITokenService>();
-
-    if (tokenService.IsTokenValid(builder.Configuration["Jwt:Key"], builder.Configuration["Jwt:Issuer"], token))
-    {
-        await next();
-    }
-});
 
 app.MapControllers();
 

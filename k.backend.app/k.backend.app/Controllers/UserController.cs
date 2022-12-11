@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace k.backend.app.service.Controllers
 {
+    [Route("api/[controller]/[action]")]
     public class UserController : Controller
     {
         private readonly IMediator _mediator;
@@ -16,12 +17,12 @@ namespace k.backend.app.service.Controllers
 
         [HttpPost]
         [Produces(typeof(UserLoginOutputModel))]
-        public async Task<IActionResult> LogIn([FromBody] string userName, string password)
+        public async Task<IActionResult> LogIn([FromBody] UserLogInInputModel inputModel)
         {
             var command = new UserLogInCommand
             {
-                UserName = userName,
-                Password = password
+                UserName = inputModel.Username,
+                Password = inputModel.Password
             };
             var outputModel = await _mediator.Send(command);
             return Ok(outputModel);

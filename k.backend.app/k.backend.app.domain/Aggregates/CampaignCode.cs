@@ -10,7 +10,7 @@ namespace k.backend.app.domain.Aggregates
 {
     public class CampaignCode
     {
-        public long Id { get; private set; }
+        public long Id { get; set; }
         public string Code { get; private set; }
 
         public CampaignCode()
@@ -33,21 +33,27 @@ namespace k.backend.app.domain.Aggregates
 
                 var currentChar = allCharacters[chosenIndex];
 
-                if (currentChar != oldChosenChar)
+                if (oldChosenChar == null ||
+                    currentChar.Character != oldChosenChar?.Character)
                 {
                     oldChosenChar = currentChar;
                     code += currentChar.Character;
                 }
             }
+            Code = code;
         }
 
-        public bool IsCodeValid()
+        public bool CheckCode()
         {
             var allStringCharacters = CodeASCII.GetAll().Select(x => x.Character).ToList();
+
+            char? oldChar = null;
             foreach (var character in Code)
             {
-                if (!allStringCharacters.Contains(character.ToString()))
+                if (!allStringCharacters.Contains(character.ToString()) ||
+                    (oldChar != null && oldChar.Value == character))
                     return false;
+                oldChar = character;
             }
             return true;
         }
