@@ -31,7 +31,7 @@ namespace k.backend.core.Auth.Jwt.Concrete
             var tokenHandler = new JwtSecurityTokenHandler();
             try
             {
-                tokenHandler.ValidateToken(token,
+                tokenHandler.ValidateToken(token.Replace("Bearer ", String.Empty),
                 new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,

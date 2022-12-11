@@ -13,7 +13,7 @@ namespace k.backend.app.service.Application.Queries
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public CampaignCodeQuery(CampaignContext context,ITokenService tokenService,IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
+        public CampaignCodeQuery(CampaignContext context, ITokenService tokenService, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _tokenService = tokenService;
@@ -27,7 +27,8 @@ namespace k.backend.app.service.Application.Queries
             var token = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString();
             if (!_tokenService.IsTokenValid(_configuration["Jwt:Key"].ToString(), _configuration["Jwt:Issuer"].ToString(), token))
             {
-                return null;
+                //401 dönülebilir.
+                throw new UnauthorizedAccessException("You are not authorized to do this action.");
             }
 
             var outputModel = new CampaignCodeListOutputModel();
