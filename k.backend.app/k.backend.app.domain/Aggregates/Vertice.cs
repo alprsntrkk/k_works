@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace k.backend.app.domain.Aggregates
 {
-    public class OcrResponse
+    public class Vertice
     {
         public long Id { get; set; }
-        public string Locale { get; set; }
-        public string Description { get; set; }
-        public BoundingPoly BoundingPoly { get; set; }
         public long BoundingPolyId { get; set; }
+        public BoundingPoly BoundingPoly { get; set; }
+        public decimal X { get; set; }
+        public decimal Y { get; set; }
     }
 }

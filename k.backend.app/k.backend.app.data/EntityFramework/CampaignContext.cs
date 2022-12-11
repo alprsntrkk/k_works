@@ -31,6 +31,14 @@ namespace k.backend.app.data.EntityFramework
 
             #endregion Task 2
 
+            #region Task 3
+
+            modelBuilder.ApplyConfiguration<OcrResponse>(new OcrResponseConfiguration());
+            modelBuilder.ApplyConfiguration<BoundingPoly>(new BoundingPolyConfiguration());
+            modelBuilder.ApplyConfiguration<Vertice>(new VerticeConfiguration());
+
+            #endregion Task 3
+
             base.OnModelCreating(modelBuilder);
         }
 
@@ -58,5 +66,15 @@ namespace k.backend.app.data.EntityFramework
         public DbSet<MultiLanguageContentImage> MultiLanguageContentImages { get; set; }
 
         #endregion Task 2
+
+        #region Task 3
+
+        public DbSet<OcrResponse> OcrResponses { get; set; }
+
+        public DbSet<BoundingPoly> BoundingPolys { get; set; }
+
+        public DbSet<Vertice> Vertices { get; set; }
+
+        #endregion Task 3
     }
 }
