@@ -9,7 +9,7 @@ namespace k.backend.app.data.EntityFramework.EntityConfigurations
         public void Configure(EntityTypeBuilder<BoundingPoly> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasOne(x => x.OcrResponse).WithOne(x => x.BoundingPoly).HasForeignKey<BoundingPoly>(x => x.OcrResponseId);
+            builder.HasOne(x => x.OcrResponse).WithOne(x => x.BoundingPoly).HasForeignKey<OcrResponse>(x => x.BoundingPolyId);
             builder.HasMany(x => x.Vertices).WithOne(x => x.BoundingPoly).HasForeignKey(x => x.BoundingPolyId);
         }
     }
